@@ -1,0 +1,239 @@
+#include <iostream>
+#include <windows.h>
+#include <mmsystem.h>
+
+using namespace std;
+int choice;
+int choice1;
+
+class currency
+{
+protected:
+  float rupee;
+  float euro;
+  float dollar;
+  float won;
+
+public:
+  currency()
+  {
+    rupee = 0;
+    dollar = 0;
+    euro = 0;
+    won = 0;
+  }
+
+  void convert(float);
+  void convert(float, int);
+  void convert(float, char);
+  void convert(float, double);
+  void decision(currency &);
+  void inflation(currency &);
+};
+
+class newcurr : private currency
+{
+  float newcurr;
+  float conversion_factor;
+  float converted;
+
+public:
+  void newconversion(float, float);
+};
+
+void newcurr::newconversion(float newcurr, float cfact)
+{
+  converted = cfact * newcurr;
+  this->dollar = converted;
+  this->euro = converted;
+  this->won = converted;
+  this->rupee = converted;
+  decision(*this);
+  inflation(*this);
+}
+
+void currency::decision(currency &p)
+{
+
+  if (choice1 == 1){
+    cout << "DOLLAR: \n"
+         << p.dollar <<endl;
+        PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSDollar.wav", NULL, SND_ASYNC);
+  }else if (choice1 == 2){
+    cout << "EURO: \n"
+         << p.euro <<endl;
+         PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSEuro.wav", NULL, SND_ASYNC);
+  }else if (choice1 == 3){
+    cout << "KWON: \n"
+         << p.won <<endl;
+         PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSWon.wav", NULL, SND_ASYNC);
+  }else if (choice1 == 4){
+    cout << "RUPEE: \n"
+         << p.rupee <<endl;
+         PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSRupee.wav", NULL, SND_ASYNC);
+  }
+}
+
+void currency::inflation(currency &i)
+{
+    cout << "Calculating inflated prices .....\n";
+    int PrevYear, CurrYear;
+    float PrevCPI , CurrCPI, InflatedValue;
+    cout<<"Enter the previous Year\n";
+    cin>>PrevYear;
+    cout<<"Enter the current Year\n";
+    cin>>CurrYear;
+    cout<<"What was the CPI in year " << PrevYear << "?" << endl;
+    cin>>PrevCPI;
+    cout<<"What was the CPI in year " << CurrYear << "?" << endl;
+    cin>>CurrCPI;
+
+    if (choice1 == 1){
+        cout << "DOLLAR: \n";
+        InflatedValue = i.dollar * (CurrCPI/PrevCPI);
+        cout<<"The inflated value from " << PrevYear << " To " << CurrYear << " is " << InflatedValue;
+    }
+  else if (choice1 == 2){
+        cout << "EURO: \n";
+        InflatedValue = i.euro * (CurrCPI/PrevCPI);
+        cout<<"The inflated value from " << PrevYear << " To " << CurrYear << " is " << InflatedValue;
+  }
+  else if (choice1 == 3){
+        cout << "KWON: \n";
+        InflatedValue = i.won * (CurrCPI/PrevCPI);
+        cout<<"The inflated value from " << PrevYear << " To " << CurrYear << " is " << InflatedValue;
+  }
+  else if (choice1 == 4){
+        cout << "RUPEE: \n";
+        InflatedValue = i.rupee * (CurrCPI/PrevCPI);
+        cout<<"The inflated value from " << PrevYear << " To " << CurrYear << " is " << InflatedValue;
+  }
+
+}
+
+void currency::convert(float rupee)
+{
+  dollar = .013 * rupee;
+  euro = .012 * rupee;
+  won = 16.20 * rupee;
+  this->rupee = rupee;
+  decision(*this);
+  inflation(*this);
+}
+void currency::convert(float euro, int x)
+{
+  rupee = 84.21 * euro;
+  dollar = 1.13 * euro;
+  won = 1354.4 * euro;
+  this->euro = euro;
+  decision(*this);
+  inflation(*this);
+}
+void currency::convert(float dollar, char c)
+{
+
+  rupee = 74.76 * dollar;
+  euro = .89 * dollar;
+  won = 1202.55 * dollar;
+  this->dollar = dollar;
+  decision(*this);
+  inflation(*this);
+}
+void currency::convert(float won, double c)
+{
+  rupee = .062 * won;
+  dollar = .00083 * won;
+  euro = 0.00071 * won;
+  this->won = won;
+  decision(*this);
+  inflation(*this);
+}
+
+int main()
+{
+
+  currency c1;
+  float curr;
+  int option;
+
+  do
+  {
+    cout << "\nDo you want to convert existing currencies or make a new one\n";
+    PlaySoundA((LPCSTR) "C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSwav.wav", NULL, SND_ASYNC);
+    getchar();
+    cout << "Press 1 to continue with existing currency, 0 to make your own \n";
+    PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTS10.wav", NULL, SND_ASYNC);
+    getchar();
+    cin >> option;
+    if (option == 1)
+    {
+      cout << "Convert from\n";
+      cout << "1:Dollar  2:Euro  3:won  4:RUPEE\n";
+      PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSFromConv.wav", NULL, SND_ASYNC);
+      cin >> choice;
+      cout << "Enter amount\n";
+      PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSEntAmt.wav", NULL, SND_ASYNC);
+      cin >> curr;
+      cout << "what do you want convert it to\n";
+      cout << "1:Dollar  2:Euro  3:won  4:RUPEE\n";
+      PlaySoundA("C:\\Users\\Shravan Shanmugam\\OneDrive\\Documents\\C++\\CurrencyConvertor\\TTSConvTo.wav", NULL, SND_ASYNC);
+      cin >> choice1;
+
+      switch (choice)
+      {
+      case 2:
+        c1.convert(curr, 3);
+        break;
+
+      case 1:
+        c1.convert(curr, 'a');
+        break;
+
+      case 3:
+        c1.convert(curr, 2.234);
+        break;
+
+      case 4:
+        c1.convert(curr);
+        break;
+      default:
+        cout << "enter valid choice\n";
+      }
+    }
+    else
+    {
+      newcurr n;
+      float cfd, cfe, cfr, cfwon;
+      cout << "Enter the new conversion factor for dollar, euro , won and rupee respectively\n";
+      cin >> cfd >> cfe >> cfwon >> cfr;
+      cout << "Enter amount\n";
+      cin >> curr;
+      cout << "what do you want convert it to\n";
+      cout << "1:Dollar  2:Euro  3:won  4:RUPEE\n";
+      cin >> choice1;
+      switch (choice1)
+      {
+      case 1:
+        n.newconversion(curr, cfd);
+        break;
+
+      case 2:
+        n.newconversion(curr, cfe);
+        break;
+
+      case 3:
+        n.newconversion(curr, cfwon);
+        break;
+
+      case 4:
+        n.newconversion(curr, cfr);
+        break;
+
+      default:
+        cout << "Enter valid choice\n";
+      }
+    }
+    cout << "\nPress -1 to stop\n";
+    cin >> choice;
+  }while(choice != -1);
+}
